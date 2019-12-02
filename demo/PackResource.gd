@@ -1,6 +1,6 @@
 extends Node
 
-const file_name = "../sunvox_lib/linux/sample_project_x86_64/test.sunvox"
+const file_name = "../sunvox_lib/resources/test.sunvox"
 const resource = "sunvox_test.res"
 
 func _ready():
