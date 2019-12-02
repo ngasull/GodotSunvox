@@ -10,8 +10,9 @@ func _ready():
   sunvox = Sunvox.new()
   sunvox.init(0)
   sunvox.load_from_memory(load("res://sunvox_test.res").__data__)
-  sunvox.volume(256)
 
+  print("Playing ", sunvox.get_song_name())
+  print("Sening note from module #6 ", sunvox.get_module_name(6))
   sunvox.send_event(0, 64, 129, 7, 0, 0) # track 0; note 64; velocity 129 (max); module 6
   sunvox.play_from_beginning()
 
