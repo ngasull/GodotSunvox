@@ -3,6 +3,7 @@
 
 # Object files
 *.o
+*.os
 *.ko
 *.obj
 *.elf
@@ -23,10 +24,9 @@
 *.lo
 
 # Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+demo/bin/**/libgodotsunvox.dll
+demo/bin/**/libgodotsunvox.so
+demo/bin/**/libgodotsunvox.dylib
 
 # Executables
 *.exe
@@ -50,3 +50,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+godot_headers

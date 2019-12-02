@@ -1,0 +1,8 @@
+[gd_resource type="NativeScript" load_steps=2 format=2]
+
+[ext_resource path="res://bin/godotsunvox.gdnlib" type="GDNativeLibrary" id=1]
+
+[resource]
+resource_name = "godotsunvox"
+class_name = "Sunvox"
+library = ExtResource( 1 )

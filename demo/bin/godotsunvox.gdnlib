@@ -1,0 +1,16 @@
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="godot_"
+reloadable=false
+
+[entry]
+
+X11.64="res://bin/linux_x86_64/libgodotsunvox.so"
+
+[dependencies]
+
+X11.64=[ "res://bin/linux_x86_64/sunvox.so" ]
+Windows.64=[ "res://bin/win64/sunvox.dll" ]
+OSX.64=[ "res://bin/osx/sunvox.dylib" ]
