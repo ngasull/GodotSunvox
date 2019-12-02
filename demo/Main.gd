@@ -13,7 +13,7 @@ func _ready():
 
   print("Playing ", sunvox.get_song_name())
   print("Sening note from module #6 ", sunvox.get_module_name(6))
-  sunvox.send_event(0, 64, 129, 7, 0, 0) # track 0; note 64; velocity 129 (max); module 6
+  sunvox.send_event(0, 64, 129, 6, 0, 0) # track 0; note 64; velocity 129 (max); module 6
   sunvox.play_from_beginning()
 
 func _process(delta):

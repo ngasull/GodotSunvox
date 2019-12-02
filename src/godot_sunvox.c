@@ -133,7 +133,7 @@ godot_variant sunvox_send_event(godot_object *p_instance, void *p_method_data, v
   int ctl = api->godot_variant_as_int(p_args[4]);
   int ctl_val = api->godot_variant_as_int(p_args[5]);
 
-  int res = sv_send_event(user_data->slot, track_num, note, vel, module, ctl, ctl_val);
+  int res = sv_send_event(user_data->slot, track_num, note, vel, module + 1, ctl, ctl_val);
 
   api->godot_variant_new_int(&ret, res);
   return ret;
