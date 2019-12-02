@@ -73,6 +73,8 @@ godot_variant sunvox_load(godot_object *p_instance, void *p_method_data, void *p
 
     int res = sv_load(user_data->slot, api->godot_char_string_get_data(&char_str));
 
+    api->godot_char_string_destroy(char_str);
+    api->godot_string_destroy(file_name);
     api->godot_variant_new_int(&ret, res);
     return ret;
 }
@@ -86,6 +88,8 @@ godot_variant sunvox_load_from_memory(godot_object *p_instance, void *p_method_d
     godot_pool_byte_array_read_access* p_read = api->godot_pool_byte_array_read(&data);
     int res = sv_load_from_memory(user_data->slot, (void*) api->godot_pool_byte_array_read_access_ptr(p_read), size);
 
+    api->godot_pool_byte_array_read_access_destroy(p_read);
+    api->godot_pool_byte_array_destroy(&data);
     api->godot_variant_new_int(&ret, res);
     return ret;
 }
