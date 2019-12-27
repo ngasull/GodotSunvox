@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/icon.png-ba55daf38646a9d89dc7fc19f9ca6533.stex"
+path="res://.import/icon.png-2cf1a32158468f4705cae74767784307.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/GodotSunvox/icon.png"
-dest_files=[ "res://.import/icon.png-ba55daf38646a9d89dc7fc19f9ca6533.stex" ]
+source_file="res://addons/Sunvox/icon.png"
+dest_files=[ "res://.import/icon.png-2cf1a32158468f4705cae74767784307.stex" ]
 
 [params]
 

@@ -19,8 +19,8 @@ run/main_scene="res://Main.tscn"
 
 [autoload]
 
-Sunvox="*res://addons/GodotSunvox/godotsunvox.gdns"
+Sunvox="*res://addons/Sunvox/godotsunvox.gdns"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "GodotSunvox" )
+enabled=PoolStringArray( "Sunvox" )

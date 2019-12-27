@@ -11,7 +11,7 @@ opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r
 opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
-opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'demo/addons/GodotSunvox/bin/'))
+opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'demo/addons/Sunvox/bin/'))
 opts.Add(PathVariable('target_name', 'Godot Sunvox.', 'libgodotsunvox', PathVariable.PathAccept))
 
 # Local dependency paths, adapt them to your setup
