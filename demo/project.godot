@@ -16,3 +16,11 @@ _global_script_class_icons={
 [application]
 
 run/main_scene="res://Main.tscn"
+
+[autoload]
+
+Sunvox="*res://addons/GodotSunvox/godotsunvox.gdns"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "GodotSunvox" )

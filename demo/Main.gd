@@ -1,36 +1,22 @@
 extends Node
 
-onready var Sunvox = preload("res://bin/godotsunvox.gdns")
-var sunvox
-
-var vol = 160
-var vol_down = false
-var elapsed = 0
+var slot
 
 func _ready():
-  sunvox = Sunvox.new()
-  sunvox.init(0)
-  sunvox.load_from_memory(load("res://sunvox_test.res").__data__)
-  sunvox.volume(vol)
-  sunvox.set_autostop(1)
+  Sunvox.init("", 44100, 2, 0)
+  slot = Sunvox.acquire_slot()
+  Sunvox.load_from_memory(slot, preload("res://sunvox_test.res").__data__)
+  Sunvox.set_autostop(slot, 1)
 
-  print("Playing ", sunvox.get_song_name())
-  print("BPM: ", sunvox.get_song_bpm())
-  print("Ticks per line: ", sunvox.get_song_tpl())
-  print("Sening note to module #6 ", sunvox.get_module_name(6))
-  sunvox.send_event(0, 64, 129, 6, 0, 0) # track 0; note 64; velocity 129 (max); module 6
-  sunvox.play_from_beginning()
+  print("Playing ", Sunvox.get_song_name(slot))
+  print("BPM: ", Sunvox.get_song_bpm(slot))
+  print("Ticks per line: ", Sunvox.get_song_tpl(slot))
+  print("Sending note to module #6 ", Sunvox.get_module_name(slot, 6))
+  Sunvox.send_event(slot, 0, 64, 129, 6, 0, 0) # slot 0, track 0; note 64; velocity 129 (max); module 6
+  Sunvox.play_from_beginning(slot)
 
 func _process(delta):
-  elapsed += delta
-
-  # Rewinding 1 bar every 3 seconds
   if Input.is_action_just_pressed("ui_left"):
-    sunvox.rewind(sunvox.get_current_line() - 32)
+    Sunvox.rewind(slot, Sunvox.get_current_line(slot) - 32)
   elif Input.is_action_just_pressed("ui_right"):
-    sunvox.rewind(sunvox.get_current_line() + 32)
-
-  if vol < 25 or vol > 255:
-    vol_down = !vol_down
-  vol = vol + (-1 if vol_down else 1)
-  sunvox.volume(vol)
+    Sunvox.rewind(slot, Sunvox.get_current_line(slot) + 32)
