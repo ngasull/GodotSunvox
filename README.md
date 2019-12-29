@@ -2,9 +2,9 @@
 
 Low-level Sunvox bindings for GDNative.
 
-The idea behind these bindings follows the philosophy of Sunvox: do less, so simple things, but do them efficiently. The bindings don't change the C API except for idiomatically integrating to Godot's environment. For instance, functions that fill out input buffers with data are wrapped to generate the data arrays themselves, as GDScript allows that.
+The idea behind these bindings follows the philosophy of Sunvox: do less, do simple things, but do them efficiently. The bindings don't change the C API except when idiomatically integrating to Godot's environment. For instance, functions that fill input buffers with data are wrapped to generate the data arrays themselves, which is more idiomatic to GDScript.
 
-Concerning the [API documentation](#api), please refer to the appropriate section below.
+Concerning the [API documentation, please refer to the appropriate section below](#api).
 
 ## Plugin
 
