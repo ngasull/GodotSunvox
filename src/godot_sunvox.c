@@ -6,11 +6,9 @@
 #define SUNVOX_MAIN
 #include "sunvox.h"
 
-#define MAX_SLOTS 46
-
 typedef struct user_data_struct {
   bool init;
-  bool used_slot[MAX_SLOTS];
+  int used_slot;
 } user_data_struct;
 
 const godot_gdnative_core_api_struct *api = NULL;
@@ -19,10 +17,7 @@ const godot_gdnative_ext_nativescript_api_struct *nativescript_api = NULL;
 GDCALLINGCONV void *sunvox_constructor(godot_object *p_instance, void *p_method_data) {
   user_data_struct *user_data = (user_data_struct *)api->godot_alloc(sizeof(user_data_struct));
   user_data->init = false;
-
-  for (int i = 0; i < MAX_SLOTS; i++) {
-    user_data->used_slot[i] = false;
-  }
+  user_data->used_slot = 0;
 
   if (sv_load_dll()) {
     api->godot_print_error("sv_load_dll() failed", __func__, __FILE__, __LINE__);
@@ -34,8 +29,8 @@ GDCALLINGCONV void *sunvox_constructor(godot_object *p_instance, void *p_method_
 GDCALLINGCONV void sunvox_destructor(godot_object *p_instance, void *p_method_data, void *p_user_data) {
   user_data_struct *user_data = (user_data_struct *)p_user_data;
 
-  for (int i = 0; i < MAX_SLOTS; i++) {
-    if (user_data->used_slot[i]) {
+  for (int i = 0; i < 16; i++) {
+    if (user_data->used_slot & (1 << i)) {
       sv_stop(i);
       sv_close_slot(i);
     }
@@ -54,11 +49,11 @@ godot_variant sunvox_acquire_slot(godot_object *p_instance, void *p_method_data,
   user_data_struct *user_data = (user_data_struct *)p_user_data;
   godot_variant ret;
   int slot = -1;
-  for (int i = 0; i < MAX_SLOTS && slot < 0; i++) {
-    if (!user_data->used_slot[i]) {
+  for (int i = 0; i < 16 && slot < 0; i++) {
+    if (!(user_data->used_slot & (1 << i))) {
       slot = i;
       sv_open_slot(slot);
-      user_data->used_slot[slot] = true;
+      user_data->used_slot |= (1 << slot);
     }
   }
   api->godot_variant_new_int(&ret, slot);
@@ -675,7 +670,7 @@ godot_variant sunvox_open_slot(godot_object *p_instance, void *p_method_data, vo
   godot_variant ret;
   int slot = api->godot_variant_as_int(p_args[0]);
   int res = sv_open_slot(slot);
-  user_data->used_slot[slot] = true;
+  user_data->used_slot |= (1 << slot);
   api->godot_variant_new_int(&ret, res);
   return ret;
 }
