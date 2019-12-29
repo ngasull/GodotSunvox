@@ -1,11 +1,41 @@
 # GodotSunvox
 
-GodotNative bindings for sunvox
+Low-level Sunvox bindings for GDNative.
 
-## Doc
+The idea behind these bindings follows the philosophy of Sunvox: do less, so simple things, but do them efficiently. The bindings don't change the C API except for idiomatically integrating to Godot's environment. For instance, functions that fill out input buffers with data are wrapped to generate the data arrays themselves, as GDScript allows that.
+
+Concerning the [API documentation](#api), please refer to the appropriate section below.
+
+## Plugin
+
+These bindings can simply be accessed as a plugin. Once added to `addons` directory, don't forget to enable the plugin via `Project > Project Settings > Plugins` tab, and enable _Sunvox_.
+
+The plugin uses AutoLoad to instanciate a `sunvox` singleton, from which the whole Sunvox API is available.
+
+From your project, you need to initialize Sunvox:
+```
+func _ready():
+  Sunvox.init("", 44100, 2, 0)
+```
+
+See API docs for advanced usage of `init()`.
+
+If you'd like to init the plugin in regular playback mode and in callback mode at the same time (for wav streaming instead of letting Sunvox handle the playback), I'd recommend having two instances of the plugin at once: _Sunvox_ and _SunvoxCallback_. They each have their own copy of the libraries which guarantees their independence.
+
+
+## Manually building
+
+Python, scons and clang are required to build the library:
+```bash
+scons platform=linux use_llvm=yes
+```
+
+`linux` can be replaced by `osx` or `windows`.
+
+
+## API
 
 ```c
-
 /**
  * Open the first available slot
  * Returns the opened slot number
