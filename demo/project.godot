@@ -20,7 +20,8 @@ run/main_scene="res://Main.tscn"
 [autoload]
 
 Sunvox="*res://addons/Sunvox/godotsunvox.gdns"
+SunvoxCallback="*res://addons/SunvoxCallback/godotsunvox_callback.gdns"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "Sunvox" )
+enabled=PoolStringArray( "Sunvox", "SunvoxCallback" )

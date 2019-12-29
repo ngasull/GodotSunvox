@@ -86,6 +86,10 @@ elif env['platform'] in ('x11', 'linux'):
 elif env['platform'] == "windows":
     shutil.copyfile('sunvox_lib/windows/lib_x86_64/sunvox.dll', env['target_path'] + 'sunvox.dll')
 
+if os.path.isdir('demo/addons/SunvoxCallback/bin'):
+    shutil.rmtree('demo/addons/SunvoxCallback/bin')
+
+shutil.copytree('demo/addons/Sunvox/bin', 'demo/addons/SunvoxCallback/bin')
 
 # Generates help for the -h scons option.
 Help(opts.GenerateHelpText(env))
