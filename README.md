@@ -304,6 +304,20 @@ int load_module_from_memory( int slot, PoolByteArray data, int x, int y, int z )
 int lock_slot( int slot );
 
 /**
+ * USE LOCK/UNLOCK!
+ * Create a new module
+ * Returns the module number
+ */
+int sv_new_module( int slot, String type, String name, int x, int y, int z );
+
+/**
+ * USE LOCK/UNLOCK!
+ * Remove a module
+ * Returns whatever Sunvox returns
+ */
+int sv_remove_module( int slot, int mod_num );
+
+/**
  * Manually open a slot
  * Returns whatever Sunvox returns
  */
