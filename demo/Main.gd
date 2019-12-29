@@ -19,7 +19,7 @@ func _ready():
   print("Number of patterns %d" % Sunvox.get_number_of_patterns(slot))
   var pattern = 0
   var d = Sunvox.get_pattern_data(slot, pattern)[5][3] # 4th note 6th track
-  print("Pattern #%d note=%d vel=%d module=%d zero=%d ctl=%d ctl_val=%d" % [pattern, d.note, d.vel, d.module, d.zero, d.ctl, d.ctl_val])
+  print("Pattern #%d note=%d vel=%d module=%d ctl=%d effect=%d ctl_val=%d" % [pattern, d.note, d.vel, d.module, d.ctl, d.effect, d.ctl_val])
 
   var m = 6
   print("Sending note to module #%d %s" % [m, Sunvox.get_module_name(slot, m)])
@@ -30,7 +30,7 @@ func _ready():
   for c in Sunvox.get_number_of_module_ctls(slot, m):
     print("Module #%d %s=%d" % [m, Sunvox.get_module_ctl_name(slot, m, c), Sunvox.get_module_ctl_value(slot, m, c)])
 
-  Sunvox.send_event(slot, 0, 64, 129, 6, 0, 0) # slot 0, track 0; note 64; velocity 129 (max); module 6
+  Sunvox.send_event(slot, 0, 64, 129, 6, 0, 0, 0) # slot 0, track 0; note 64; velocity 129 (max); module 6
   Sunvox.play_from_beginning(slot)
 
 #  SunvoxCallback.init("", 44100, 2, SV_INIT_FLAG_USER_AUDIO_CALLBACK | SV_INIT_FLAG_AUDIO_INT16)

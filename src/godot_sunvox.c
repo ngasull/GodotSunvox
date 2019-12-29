@@ -417,17 +417,17 @@ godot_variant sunvox_get_pattern_data(godot_object *p_instance, void *p_method_d
       api->godot_variant_destroy(&key);
       api->godot_variant_destroy(&value);
 
-      key_str = api->godot_string_chars_to_utf8("zero");
+      key_str = api->godot_string_chars_to_utf8("ctl");
       api->godot_variant_new_string(&key, &key_str);
-      api->godot_variant_new_int(&value, note->zero);
+      api->godot_variant_new_int(&value, (note->ctl & 0xFF00) >> 8);
       api->godot_string_destroy(&key_str);
       api->godot_dictionary_set(&line, &key, &value);
       api->godot_variant_destroy(&key);
       api->godot_variant_destroy(&value);
 
-      key_str = api->godot_string_chars_to_utf8("ctl");
+      key_str = api->godot_string_chars_to_utf8("effect");
       api->godot_variant_new_string(&key, &key_str);
-      api->godot_variant_new_int(&value, note->ctl);
+      api->godot_variant_new_int(&value, note->ctl & 0xFF);
       api->godot_string_destroy(&key_str);
       api->godot_dictionary_set(&line, &key, &value);
       api->godot_variant_destroy(&key);
@@ -618,7 +618,6 @@ godot_variant sunvox_load_from_memory(godot_object *p_instance, void *p_method_d
 }
 
 godot_variant sunvox_load_module(godot_object *p_instance, void *p_method_data, void *p_user_data, int p_num_args, godot_variant **p_args) {
-  user_data_struct *user_data = (user_data_struct *)p_user_data;
   godot_variant ret;
   int slot = api->godot_variant_as_int(p_args[0]);
   godot_string file_name = api->godot_variant_as_string(p_args[1]);
@@ -636,7 +635,6 @@ godot_variant sunvox_load_module(godot_object *p_instance, void *p_method_data, 
 }
 
 godot_variant sunvox_load_module_from_memory(godot_object *p_instance, void *p_method_data, void *p_user_data, int p_num_args, godot_variant **p_args) {
-  user_data_struct *user_data = (user_data_struct *)p_user_data;
   godot_variant ret;
   int slot = api->godot_variant_as_int(p_args[0]);
   godot_pool_byte_array data = api->godot_variant_as_pool_byte_array(p_args[1]);
@@ -655,12 +653,9 @@ godot_variant sunvox_load_module_from_memory(godot_object *p_instance, void *p_m
 }
 
 godot_variant sunvox_lock_slot(godot_object *p_instance, void *p_method_data, void *p_user_data, int p_num_args, godot_variant **p_args) {
-  user_data_struct *user_data = (user_data_struct *)p_user_data;
   godot_variant ret;
   int slot = api->godot_variant_as_int(p_args[0]);
-
   int res = sv_lock_slot(slot);
-
   api->godot_variant_new_int(&ret, res);
   return ret;
 }
@@ -761,9 +756,10 @@ godot_variant sunvox_send_event(godot_object *p_instance, void *p_method_data, v
   int vel = api->godot_variant_as_int(p_args[3]);
   int module = api->godot_variant_as_int(p_args[4]);
   int ctl = api->godot_variant_as_int(p_args[5]);
-  int ctl_val = api->godot_variant_as_int(p_args[6]);
+  int effect = api->godot_variant_as_int(p_args[6]);
+  int ctl_val = api->godot_variant_as_int(p_args[7]);
 
-  int res = sv_send_event(slot, track_num, note, vel, module + 1, ctl, ctl_val);
+  int res = sv_send_event(slot, track_num, note, vel, module + 1, ((ctl & 0xFF) << 8) | (effect & 0xFF), ctl_val);
 
   api->godot_variant_new_int(&ret, res);
   return ret;

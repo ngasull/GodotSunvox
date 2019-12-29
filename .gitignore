@@ -53,10 +53,7 @@ dkms.conf
 
 godot_headers
 
-
-#Added by cargo
-#
-#already existing elements are commented out
+.sconsign.dblite
 
 /target
 demo/addons/Sunvox/bin/
