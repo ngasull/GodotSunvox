@@ -6,6 +6,7 @@ The idea behind these bindings follows the philosophy of Sunvox: do less, do sim
 
 Concerning the [API documentation, please refer to the appropriate section below](#api).
 
+
 ## Plugin
 
 These bindings can simply be accessed as a plugin. Once added to `addons` directory, don't forget to enable the plugin via `Project > Project Settings > Plugins` tab, and enable _Sunvox_.
@@ -21,6 +22,14 @@ func _ready():
 See API docs for advanced usage of `init()`.
 
 If you'd like to init the plugin in regular playback mode and in callback mode at the same time (for wav streaming instead of letting Sunvox handle the playback), I'd recommend having two instances of the plugin at once: _Sunvox_ and _SunvoxCallback_. They each have their own copy of the libraries which guarantees their independence.
+
+
+## Loading a sunvox files
+
+In order to load projects, instruments or samples, I recommend loading them as a resource. In order to do that, they are manually stored into `PackedDataContainer` for now.
+
+
+This can be done [using the PackResource script](https://github.com/ngasull/GodotSunvox/blob/master/demo/PackResource.gd).
 
 
 ## Manually building
