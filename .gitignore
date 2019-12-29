@@ -59,5 +59,5 @@ godot_headers
 #already existing elements are commented out
 
 /target
-**/*.rs.bk
-Cargo.lock
+demo/addons/Sunvox/bin/
+demo/addons/SunvoxCallback/bin/

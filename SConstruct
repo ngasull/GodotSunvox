@@ -6,12 +6,17 @@ opts = Variables([], ARGUMENTS)
 # Gets the standard flags CC, CCX, etc.
 env = DefaultEnvironment()
 
+bin_dir = 'demo/addons/Sunvox/bin/'
+
+if not os.path.isdir(bin_dir):
+    os.mkdir(bin_dir)
+
 # Define our options
 opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r', 'release']))
 opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
-opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'demo/addons/Sunvox/bin/'))
+opts.Add(PathVariable('target_path', 'The path where the lib is installed.', bin_dir))
 opts.Add(PathVariable('target_name', 'Godot Sunvox.', 'libgodotsunvox', PathVariable.PathAccept))
 
 # Local dependency paths, adapt them to your setup
@@ -78,6 +83,9 @@ sources = Glob('src/*.c')
 library = env.SharedLibrary(target=env['target_path'] + env['target_name'] , source=sources)
 
 Default(library)
+
+if not os.path.isdir(env['target_path']):
+    os.mkdir(env['target_path'])
 
 if env['platform'] == "osx":
     shutil.copyfile('sunvox_lib/macos/lib_x86_64/sunvox.dylib', env['target_path'] + 'sunvox.dylib')
