@@ -20,7 +20,8 @@ GDCALLINGCONV void *sunvox_constructor(godot_object *p_instance, void *p_method_
   user_data->used_slot = 0;
 
   if (sv_load_dll()) {
-    api->godot_print_error("sv_load_dll() failed", __func__, __FILE__, __LINE__);
+    // FIXME bug in Sunvox beta where it correctly loads DLL but errors
+    // api->godot_print_error("sv_load_dll() failed", __func__, __FILE__, __LINE__);
   }
 
   return user_data;
@@ -64,7 +65,7 @@ godot_variant sunvox_audio_callback(godot_object *p_instance, void *p_method_dat
   godot_variant ret;
   int frames = api->godot_variant_as_int(p_args[0]);
   int latency = api->godot_variant_as_int(p_args[1]);
-  unsigned int out_time = api->godot_variant_as_uint(p_args[2]);
+  uint32_t out_time = api->godot_variant_as_uint(p_args[2]);
 
   int n_bytes = 2 * 2 * frames; // 1 frame = 2 channels (stereo) x (2 x 8 = 16) bits
   godot_pool_byte_array frames_bytearray;
@@ -88,7 +89,7 @@ godot_variant sunvox_audio_callback2(godot_object *p_instance, void *p_method_da
   godot_variant ret;
   int frames = api->godot_variant_as_int(p_args[0]);
   int latency = api->godot_variant_as_int(p_args[1]);
-  unsigned int out_time = api->godot_variant_as_uint(p_args[2]);
+  uint32_t out_time = api->godot_variant_as_uint(p_args[2]);
   int in_type = api->godot_variant_as_int(p_args[3]);
   int in_channels = api->godot_variant_as_int(p_args[4]);
   godot_pool_byte_array in_buf = api->godot_variant_as_pool_byte_array(p_args[5]);
@@ -252,7 +253,7 @@ godot_variant sunvox_get_module_flags(godot_object *p_instance, void *p_method_d
   godot_variant ret;
   int slot = api->godot_variant_as_int(p_args[0]);
   int mod_num = api->godot_variant_as_int(p_args[1]);
-  unsigned int res = sv_get_module_flags(slot, mod_num);
+  uint32_t res = sv_get_module_flags(slot, mod_num);
   api->godot_variant_new_uint(&ret, res);
   return ret;
 }
@@ -304,10 +305,10 @@ godot_variant sunvox_get_module_scope2(godot_object *p_instance, void *p_method_
   int slot = api->godot_variant_as_int(p_args[0]);
   int mod_num = api->godot_variant_as_int(p_args[1]);
   int channel = api->godot_variant_as_int(p_args[2]);
-  unsigned int samples_to_read = api->godot_variant_as_uint(p_args[3]);
+  uint32_t samples_to_read = api->godot_variant_as_uint(p_args[3]);
 
-  signed short *dest_buf = malloc(samples_to_read * sizeof(unsigned short));
-  unsigned int res = sv_get_module_scope2(slot, mod_num, channel, dest_buf, samples_to_read);
+  int16_t *dest_buf = malloc(samples_to_read * sizeof(int16_t));
+  uint32_t res = sv_get_module_scope2(slot, mod_num, channel, dest_buf, samples_to_read);
   godot_pool_int_array dest_intarray;
   api->godot_pool_int_array_new(&dest_intarray);
   api->godot_pool_int_array_resize(&dest_intarray, res);
@@ -509,9 +510,7 @@ godot_variant sunvox_get_song_length_frames(godot_object *p_instance, void *p_me
   user_data_struct *user_data = (user_data_struct *)p_user_data;
   int slot = api->godot_variant_as_int(p_args[0]);
   godot_variant ret;
-
-  unsigned int res = sv_get_song_length_frames(slot);
-
+  uint32_t res = sv_get_song_length_frames(slot);
   api->godot_variant_new_uint(&ret, res);
   return ret;
 }
@@ -520,9 +519,7 @@ godot_variant sunvox_get_song_length_lines(godot_object *p_instance, void *p_met
   user_data_struct *user_data = (user_data_struct *)p_user_data;
   int slot = api->godot_variant_as_int(p_args[0]);
   godot_variant ret;
-
-  unsigned int res = sv_get_song_length_lines(slot);
-
+  uint32_t res = sv_get_song_length_lines(slot);
   api->godot_variant_new_uint(&ret, res);
   return ret;
 }
@@ -550,14 +547,14 @@ godot_variant sunvox_get_song_tpl(godot_object *p_instance, void *p_method_data,
 
 godot_variant sunvox_get_ticks(godot_object *p_instance, void *p_method_data, void *p_user_data, int p_num_args, godot_variant **p_args) {
   godot_variant ret;
-  unsigned int res = sv_get_ticks();
+  uint32_t res = sv_get_ticks();
   api->godot_variant_new_uint(&ret, res);
   return ret;
 }
 
 godot_variant sunvox_get_ticks_per_second(godot_object *p_instance, void *p_method_data, void *p_user_data, int p_num_args, godot_variant **p_args) {
   godot_variant ret;
-  unsigned int res = sv_get_ticks_per_second();
+  uint32_t res = sv_get_ticks_per_second();
   api->godot_variant_new_uint(&ret, res);
   return ret;
 }
@@ -569,7 +566,7 @@ godot_variant sunvox_init(godot_object *p_instance, void *p_method_data, void *p
   godot_char_string config_str = api->godot_string_ascii(&config);
   int frequency = api->godot_variant_as_int(p_args[1]);
   int channels = api->godot_variant_as_int(p_args[2]);
-  int flags = api->godot_variant_as_int(p_args[3]);
+  uint32_t flags = api->godot_variant_as_int(p_args[3]);
 
   if (user_data->init) {
     sv_deinit();
@@ -608,7 +605,7 @@ godot_variant sunvox_load_from_memory(godot_object *p_instance, void *p_method_d
   int slot = api->godot_variant_as_int(p_args[0]);
   godot_pool_byte_array data = api->godot_variant_as_pool_byte_array(p_args[1]);
 
-  godot_int size = api->godot_pool_byte_array_size(&data);
+  uint32_t size = api->godot_pool_byte_array_size(&data);
   godot_pool_byte_array_read_access *p_read = api->godot_pool_byte_array_read(&data);
   int res = sv_load_from_memory(slot, (void *)api->godot_pool_byte_array_read_access_ptr(p_read), size);
 
@@ -643,7 +640,7 @@ godot_variant sunvox_load_module_from_memory(godot_object *p_instance, void *p_m
   int y = api->godot_variant_as_int(p_args[3]);
   int z = api->godot_variant_as_int(p_args[4]);
 
-  godot_int size = api->godot_pool_byte_array_size(&data);
+  uint32_t size = api->godot_pool_byte_array_size(&data);
   godot_pool_byte_array_read_access *p_read = api->godot_pool_byte_array_read(&data);
   int res = sv_load_module_from_memory(slot, (void *)api->godot_pool_byte_array_read_access_ptr(p_read), size, x, y, z);
 
@@ -768,7 +765,7 @@ godot_variant sunvox_sampler_load_from_memory(godot_object *p_instance, void *p_
   godot_pool_byte_array data = api->godot_variant_as_pool_byte_array(p_args[2]);
   int sample_slot = api->godot_variant_as_int(p_args[3]);
 
-  godot_int size = api->godot_pool_byte_array_size(&data);
+  uint32_t size = api->godot_pool_byte_array_size(&data);
   godot_pool_byte_array_read_access *p_read = api->godot_pool_byte_array_read(&data);
   int res = sv_sampler_load_from_memory(slot, sampler_module, (void *)api->godot_pool_byte_array_read_access_ptr(p_read), size, sample_slot);
 
