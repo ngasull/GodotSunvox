@@ -21,6 +21,8 @@ run/main_scene="res://Main.tscn"
 
 Sunvox="*res://addons/Sunvox/godotsunvox.gdns"
 SunvoxCallback="*res://addons/SunvoxCallback/godotsunvox_callback.gdns"
+sunvox="*res://addons/Sunvox/godotsunvox.gdns"
+sunvox_callback="*res://addons/SunvoxCallback/godotsunvox_callback.gdns"
 
 [editor_plugins]
 
