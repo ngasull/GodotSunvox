@@ -135,8 +135,10 @@ godot_variant sunvox_connect_module(godot_object *p_instance, void *p_method_dat
 }
 
 godot_variant sunvox_deinit(godot_object *p_instance, void *p_method_data, void *p_user_data, int p_num_args, godot_variant **p_args) {
+  user_data_struct *user_data = (user_data_struct *)p_user_data;
   godot_variant ret;
   int res = sv_deinit();
+  user_data->init = false;
   api->godot_variant_new_int(&ret, res);
   return ret;
 }
@@ -575,8 +577,7 @@ godot_variant sunvox_init(godot_object *p_instance, void *p_method_data, void *p
 
   int ver = sv_init(api->godot_char_string_get_data(&config_str), frequency, channels, flags);
   bool success = ver >= 0;
-  if (success) {
-  } else {
+  if (!success) {
     api->godot_print_error("sv_init() error", __func__, __FILE__, __LINE__);
   }
 

@@ -62,7 +62,7 @@ typedef struct
 #endif
 #if defined(__linux__) || defined(linux)
     #define LINUX
-    #define LIBNAME "sunvox.so"
+    #define LIBNAME "./sunvox.so"
 #endif
 #if defined(OSX) || defined(LINUX)
     #define UNIX
